@@ -1,25 +1,45 @@
 "use strict";
 
-const weatherUrl =
-  "https://api.open-meteo.com/v1/forecast?latitude=47.8517&longitude=35.1171&current_weather=true&timezone=auto";
+//temperature_unit=fahrenheit
 
-fetch(weatherUrl)
-  .then((response) => response.json())
-  .then((data) => updateWeather(data))
-  .catch((err) => console.log(err));
+let isCelsiusDegrii = true;
+
+const tempUnitBtn = document.getElementById("tempUnitBtn");
+
+
+tempUnitBtn.onclick = switchTemperatureUnit;
+function switchTemperatureUnit() {
+  isCelsiusDegrii = !isCelsiusDegrii;
+  updateData();
+}
+
+updateData();
+
+function updateData() {
+  tempUnitBtn.textContent = `Switch to ${isCelsiusDegrii ? "F" : "C"}`;
+
+  const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=47.8517&longitude=35.1171&current_weather=true&timezone=auto${
+    isCelsiusDegrii ? "" : "&temperature_unit=fahrenheit"
+  }`;
+
+  fetch(weatherUrl)
+    .then((response) => response.json())
+    .then((data) => updateWeather(data))
+    .catch((err) => console.log(err));
+}
 
 function updateWeather({
   current_weather: { temperature, windspeed },
   current_weather_units: { temperature: tempUnit, windspeed: windspeedUnit },
 }) {
-  const currentemperatureEl = document.createElement("div");
+  const currentemperatureEl = document.querySelector(".temp");
   currentemperatureEl.textContent = `${temperature} ${tempUnit}`;
   currentemperatureEl.style.color = calcColorTemperature(temperature);
+  currentemperatureEl.classList.add("weather");
 
-  const currentWindEl = document.createElement("div");
+  const currentWindEl = document.querySelector(".wind");
   currentWindEl.textContent = `${windspeed} ${windspeedUnit}`;
-
-  document.body.append(currentemperatureEl, currentWindEl);
+  currentWindEl.classList.add("weather");
 }
 
 function calcColorTemperature(temperature) {
