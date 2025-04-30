@@ -1,0 +1,27 @@
+.photoDog {
+  width: 100%;
+  max-width: 600px;
+  height: auto;
+  max-height: 80vh;
+  object-fit: contain;
+  margin: 20px auto;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.btnChangePhoto {
+  display: block;
+  margin: 30px auto;
+  padding: 12px 24px;
+  font-size: 16px;
+  background-color: #0077ff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btnChangePhoto:hover {
+  background-color: #005ccc;
+  transform: scale(1.05);
+}
